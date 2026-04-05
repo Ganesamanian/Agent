@@ -115,19 +115,19 @@ pipenv_venv/
 ._*
 .Spotlight-V100
 .Trashes
-ehthumbs.db
-Thumbs.db
+# ehthumbs.db
+# Thumbs.db
 
 # Project specific
 !.gitignore
 !.gitkeep
 data/__pycache__/
-*.db
+# *.db
 *.log
 .env*
 !.env.example
 
-# Milvus DB
-**/*.db
-**/*.manifest.json
+# # Milvus DB
+# **/*.db
+# **/*.manifest.json
 

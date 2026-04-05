@@ -1,0 +1,37 @@
+[
+  {
+    "id": "rag",
+    "title": "Retrieve relevant documents and policies about Booking.com cancellations and charges",
+    "owner": "Agent-1",
+    "status": "DONE",
+    "notes": ""
+  },
+  {
+    "id": "web",
+    "title": "Search the web for similar cases and Booking.com cancellation charge disputes",
+    "owner": "Agent-1",
+    "status": "DONE",
+    "notes": ""
+  },
+  {
+    "id": "action",
+    "title": "Analyze gathered information to identify cause and possible resolution",
+    "owner": "Agent-1",
+    "status": "DONE",
+    "notes": ""
+  },
+  {
+    "id": "next_steps",
+    "title": "Outline recommended steps to resolve the guest complaint",
+    "owner": "Agent-1",
+    "status": "DONE",
+    "notes": ""
+  },
+  {
+    "id": "result",
+    "title": "Summarize findings and proposed resolution for the complaint triage",
+    "owner": "Agent-1",
+    "status": "DONE",
+    "notes": ""
+  }
+]

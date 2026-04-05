@@ -1,0 +1,20 @@
+Issue:
+The guest cancelled their booking but was still charged for the stay.
+
+Internal policy:
+If the guest cancelled within the property's free-cancellation window and the booking was not marked as a no-show, the charge may be refundable. Support must verify the exact cancellation time, the property's cancellation policy as displayed at booking, and who processed the payment (Booking.com or the property). For non-refundable bookings, refunds are generally not provided unless there is evidence of duplicate charging, property error, or inconsistency in the policy shown at booking.
+
+Public policy:
+Guests are entitled to a refund if they cancel within the free-cancellation period as stated at the time of booking. If the cancellation is outside this window or the booking is non-refundable, charges typically apply. Transparency about cancellation terms and payment processing is maintained to ensure fair treatment.
+
+Recommended action:
+1. Verify the guest’s cancellation timestamp against the free-cancellation window and confirm the booking’s no-show status.  
+2. Determine who collected the payment—Booking.com or the property.  
+3. If the property charged directly, request payment receipts, message history, and cancellation timeline from the guest.  
+4. If eligible, proceed with refunding the guest. Otherwise, clearly explain the applicable cancellation policy or escalate if duplicate charges or policy inconsistencies are suspected.
+
+Next steps:
+- Ask the guest to provide the exact time they cancelled.  
+- Check the booking system for no-show status and review the property’s cancellation policy as shown at booking.  
+- Identify the payment processor and, if necessary, request supporting documents from the guest.  
+- Based on the findings, either issue a refund or escalate the case for further review.
