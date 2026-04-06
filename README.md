@@ -240,6 +240,24 @@ can be interpreted as:
 - the output did not contain unsupported information,
 - and the retrieved/search results were relevant to the task.
 
+### Evaluation Scenarios
+
+Here are 3 evaluation scenarios with success criteria:
+
+1. **Scenario: Cancellation Refund Dispute**  
+   Goal: "Guest cancelled within free cancellation window but was still charged"  
+   Success: Agent retrieves refunds_policy.md and payment_disputes.md; final answer correctly cites policy allowing refund and recommends contacting property for timeline verification.
+
+2. **Scenario: No-Show Marking Error**  
+   Goal: "Property marked booking as no-show after guest claims they cancelled"  
+   Success: Agent fetches escalation_matrix.md and privacy_requests.md; response identifies potential timeline conflict and suggests escalation if evidence conflicts.
+
+3. **Scenario: Duplicate Charge Complaint**  
+   Goal: "Guest charged twice for the same booking"  
+   Success: Agent uses RAG to find payment_disputes.md; web search confirms Booking.com terms; final triage recommends refund and flags as high-priority duplicate charge issue.
+
+Success means: Accurate evidence retrieval (hit rate >80% on expected docs), grounded final answer with citations, actionable next steps, and no hallucinations in recommendations.
+
 ## Design Tradeoffs
 
 ### Trade-offs Made
