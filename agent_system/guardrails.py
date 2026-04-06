@@ -37,11 +37,12 @@ def moderate_output(text: str, provider: ModelProvider, config: AppConfig, llm_p
     )
     user_prompt = f"Output: {text}"
     
-    response = provider.generate_text(
+    response_tuple = provider.generate_text(
         provider=llm_provider,
         system_prompt=system_prompt,
         user_prompt=user_prompt,
     )
+    response = response_tuple[0] if isinstance(response_tuple, tuple) else response_tuple
     
     is_flagged = 'FLAGGED' in response.upper()
     return text if not is_flagged else '[FLAGGED: Moderation blocked output]', is_flagged

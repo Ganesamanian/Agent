@@ -30,6 +30,7 @@ class ThreeAgentSystem:
                 event_handler(payload)
 
         session_id = str(uuid.uuid4())
+        user_id = request.user_id or "gan"
         llm_provider = (request.llm_provider or self.config.llm_provider or "openai").lower()
         embedding_provider = self.config.get_embedding_provider(request.embedding_provider)
         public_urls = request.public_urls or self.config.default_public_urls
@@ -52,6 +53,7 @@ class ThreeAgentSystem:
                     "case_context": request.case_context,
                     "llm_provider": llm_provider,
                     "embedding_provider": embedding_provider,
+                    "user_id": user_id,
                 },
                 metadata={"llm_provider": llm_provider, "llm_model": model_name},
             ) as workflow:
@@ -59,6 +61,7 @@ class ThreeAgentSystem:
             self.tracer.update_current_trace(
                 name=trace_name,
                 session_id=session_id,
+                user_id=user_id,
             )
             sanitized_goal, blocked = sanitize_input(request.goal)
             if blocked:
@@ -221,7 +224,8 @@ class ThreeAgentSystem:
                     "rag_chunks": len(rag_output.evidence),
                     "web_results": len(web_output.evidence),
                     "cited_sources": all_sources,
-                }
+                },
+                user_id=user_id,
             )
 
             return RunResult(

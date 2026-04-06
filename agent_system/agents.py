@@ -31,7 +31,7 @@ class RagRetrieverAgent:
                 top_k=self.config.rag_top_k,
                 embedding_provider=embedding_provider,
             )
-            summary = self._summarize(query, evidence, llm_provider=llm_provider)
+            summary = self._summarize(query, evidence, llm_provider=llm_provider, obs=obs)
             cited_sources = list(set(e.source_path or e.url or e.title for e in evidence if e.source_path or e.url))
             output = AgentOutput(summary=summary, evidence=evidence, cited_sources=cited_sources)
             if obs:
@@ -42,19 +42,19 @@ class RagRetrieverAgent:
                 })
             return output
 
-    def _summarize(self, query: str, evidence: List[Evidence], *, llm_provider: Optional[str]) -> str:
+    def _summarize(self, query: str, evidence: List[Evidence], *, llm_provider: Optional[str], obs) -> str:
         if not evidence:
             return "No internal policy chunks were retrieved."
         context = "\n".join(f"- {item.title}: {item.excerpt}" for item in evidence[:3])
-        # system_prompt = ( "You are Agent-2, the RAG retriever agent. Summarize only the retrieved internal policy evidence. " 
-        #                  "Do not invent rules. Mention uncertainty when evidence is incomplete." ) 
-        # user_prompt = f"Task: {query}\n\nRetrieved internal evidence:\n{context}\n\nWrite 3 concise bullets."
         system_prompt, user_prompt = self.tracer.get_prompt_from_langfuse("RagAgentPrompt", query, context)
         citation_instruction = "\n\nIMPORTANT: Cite sources inline as [1], [2]. End with 'Sources: [1] {title1}, [2] {title2}' using top 3."
         user_prompt += citation_instruction.format(title1=evidence[0].title if evidence else '', title2=evidence[1].title if len(evidence)>1 else '')
-        text = self.provider.generate_text(provider=llm_provider, system_prompt=system_prompt, user_prompt=user_prompt)
-        if text.strip():
-            return text.strip()
+        text, tokens = self.provider.generate_text(provider=llm_provider, system_prompt=system_prompt, user_prompt=user_prompt)
+        summary = text.strip()
+        if obs:
+            obs.update(total_tokens=tokens)
+        if summary:
+            return summary
         bullets = [f"- {item.title}: {item.excerpt}" for item in evidence[:3]]
         return "\n".join(bullets)
 
@@ -80,7 +80,7 @@ class WebSearcherAgent:
             else:
                 evidence = self._search_with_beautifulsoup(keywords, public_urls)
 
-            summary = self._summarize(query, evidence, llm_provider=llm_provider)
+            summary = self._summarize(query, evidence, llm_provider=llm_provider, obs=obs)
             cited_sources = list(set(e.source_path or e.url or e.title for e in evidence if e.source_path or e.url))
             output = AgentOutput(summary=summary, evidence=evidence, cited_sources=cited_sources)
 
@@ -163,21 +163,19 @@ class WebSearcherAgent:
                 )
         return evidence[: self.config.web_top_k]
 
-    def _summarize(self, query: str, evidence: List[Evidence], *, llm_provider: Optional[str]) -> str:
+    def _summarize(self, query: str, evidence: List[Evidence], *, llm_provider: Optional[str], obs) -> str:
         if not evidence:
             return "No public Booking.com evidence was found from the configured web sources."
         context = "\n".join(f"- {item.title}: {item.excerpt}" for item in evidence[:3])
-        # system_prompt = (
-        #     "You are Agent-3, the websearcher. Summarize only the public Booking.com evidence. "
-        #     "Do not mention internal policy. Keep it short and factual."
-        # )
-        # user_prompt = f"Task: {query}\n\nPublic evidence:\n{context}\n\nWrite 3 concise bullets."
         system_prompt, user_prompt = self.tracer.get_prompt_from_langfuse("WebAgentPrompt", query, context)
         citation_instruction = "\n\nIMPORTANT: Cite sources inline as [1], [2]. End with 'Sources: [1] {url1}, [2] {url2}' using top 3."
         user_prompt += citation_instruction.format(url1=evidence[0].url if evidence else '', url2=evidence[1].url if len(evidence)>1 else '')
-        text = self.provider.generate_text(provider=llm_provider, system_prompt=system_prompt, user_prompt=user_prompt)
-        if text.strip():
-            return text.strip()
+        text, tokens = self.provider.generate_text(provider=llm_provider, system_prompt=system_prompt, user_prompt=user_prompt)
+        summary = text.strip()
+        if obs:
+            obs.update(total_tokens=tokens)
+        if summary:
+            return summary
         bullets = [f"- {item.title}: {item.excerpt}" for item in evidence[:3]]
         return "\n".join(bullets)
 
@@ -267,7 +265,7 @@ class PlannerAgent:
             input={"goal": request.goal, "case_context": request.case_context},
             metadata={"llm_provider": request.llm_provider, "llm_model": model_name},
         ) as obs:
-            planned = self.provider.generate_json(
+            planned, tokens = self.provider.generate_json(
                 provider=request.llm_provider,
                 system_prompt=system_prompt,
                 user_prompt=user_prompt,
@@ -275,6 +273,7 @@ class PlannerAgent:
             final_plan = self._normalize_plan(planned, fallback)
             if obs:
                 obs.update(output=final_plan)
+                obs.update(total_tokens=tokens)
             return final_plan
 
     def write_action_plan(
@@ -301,15 +300,16 @@ class PlannerAgent:
                 f"Public evidence summary:\n{web_output.summary}\n\n"
                 "Write a concise action plan in 3 bullets."
             )
-            text = self.provider.generate_text(
+            text, tokens = self.provider.generate_text(
                 provider=request.llm_provider,
                 system_prompt=system_prompt,
                 user_prompt=user_prompt,
             )
-            
+            action_plan_text = text.strip()
             if obs:
-                obs.update(output={"action_plan": text})
-            return text.strip()
+                obs.update(output={"action_plan": action_plan_text})
+                obs.update(total_tokens=tokens)
+            return action_plan_text
 
     def write_next_steps(
         self,
@@ -337,15 +337,16 @@ class PlannerAgent:
                 f"Public evidence:\n{web_output.summary}\n\n"
                 "Write 4 short next steps."
             )
-            text = self.provider.generate_text(
+            text, tokens = self.provider.generate_text(
                 provider=request.llm_provider,
                 system_prompt=system_prompt,
                 user_prompt=user_prompt,
             )
-            
+            next_steps_text = text.strip()
             if obs:
-                obs.update(output={"next_steps": text})
-            return text.strip()
+                obs.update(output={"next_steps": next_steps_text})
+                obs.update(total_tokens=tokens)
+            return next_steps_text
 
     def write_final_answer(
         self,
@@ -374,13 +375,14 @@ class PlannerAgent:
                 f"Action plan:\n{action_plan}\n\n"
                 f"Next steps:\n{next_steps}"
             )
-            text = self.provider.generate_text(
+            text, tokens = self.provider.generate_text(
                 provider=request.llm_provider,
                 system_prompt=system_prompt,
                 user_prompt=user_prompt,
             )
-            
+            final_answer_text = text.strip()
             if obs:
-                obs.update(output={"final_answer": text})
-            return text.strip()
+                obs.update(output={"final_answer": final_answer_text})
+                obs.update(total_tokens=tokens)
+            return final_answer_text
 

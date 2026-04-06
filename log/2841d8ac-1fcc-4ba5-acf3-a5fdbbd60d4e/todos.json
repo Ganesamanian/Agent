@@ -1,0 +1,37 @@
+[
+  {
+    "id": "rag",
+    "title": "Retrieve relevant documents and policies on Booking.com no-show and cancellation disputes",
+    "owner": "Agent-1",
+    "status": "DONE",
+    "notes": ""
+  },
+  {
+    "id": "web",
+    "title": "Search for recent cases and guidelines on Booking.com no-show complaints and guest cancellation claims",
+    "owner": "Agent-1",
+    "status": "DONE",
+    "notes": ""
+  },
+  {
+    "id": "action",
+    "title": "Analyze gathered information to identify steps for complaint triage and resolution",
+    "owner": "Agent-1",
+    "status": "DONE",
+    "notes": ""
+  },
+  {
+    "id": "next_steps",
+    "title": "Outline actionable next steps for complaint handling and communication with property and guest",
+    "owner": "Agent-1",
+    "status": "DONE",
+    "notes": ""
+  },
+  {
+    "id": "result",
+    "title": "Compile a summary report of findings and recommended complaint triage actions",
+    "owner": "Agent-1",
+    "status": "DONE",
+    "notes": ""
+  }
+]

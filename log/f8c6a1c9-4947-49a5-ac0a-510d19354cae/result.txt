@@ -1,0 +1,26 @@
+Issue:  
+A property marked a guest’s booking as a no-show, but the guest claims they cancelled the reservation. There is a dispute regarding the timeline and validity of the cancellation versus the no-show designation.
+
+Internal policy:  
+- Support must verify the timeline of the guest’s cancellation and the property’s no-show marking; any conflicting or unclear timelines require escalation.  
+- If the guest cancelled within the free-cancellation window and the booking was still marked no-show, the charge may be refundable. In this case, collect the cancellation timestamp, property cancellation policy, and payment ownership details.  
+- Determine who collected the payment—Booking.com or the property. If the property charged directly, gather the payment receipt, message trail with the property, and cancellation timeline before proceeding.
+
+Public policy:  
+No publicly available Booking.com policy or evidence addresses this specific scenario.
+
+Recommended action:  
+- Contact the guest to obtain the exact cancellation date/time and any supporting evidence such as cancellation confirmation emails.  
+- Retrieve the property’s no-show marking timestamp and cancellation policy to compare with the guest’s cancellation timeline.  
+- Verify payment processing details to identify whether Booking.com or the property charged the guest. If the property charged directly, request the payment receipt and message history with the property.  
+- If there are timeline conflicts, unclear payment ownership, or if the cancellation was within the free-cancellation window but the booking was marked no-show, escalate the case to the legal or disputes team for further review.
+
+Next steps:  
+1. Reach out to the guest for cancellation details and evidence.  
+2. Obtain the property’s no-show marking timestamp and cancellation policy.  
+3. Confirm payment ownership and collect relevant payment documentation if needed.  
+4. Escalate to the appropriate internal team if discrepancies or refund eligibility concerns arise.
+
+Cited Sources:
+- /Users/ganesamaniankolappan/Documents/Temp_work/Agent/data/rag/refunds_policy.md
+- /Users/ganesamaniankolappan/Documents/Temp_work/Agent/data/rag/payment_disputes.md

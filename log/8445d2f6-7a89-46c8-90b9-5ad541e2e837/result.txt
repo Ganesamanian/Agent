@@ -1,0 +1,32 @@
+Issue:  
+A property has marked a reservation as a no-show, but the guest claims they cancelled the booking. This discrepancy requires verification of the cancellation timeline and payment details to determine the correct status and any applicable refunds.
+
+Internal policy:  
+- Support must verify the timeline of the guest’s cancellation against the property’s no-show report and cancellation policy.  
+- If the guest cancelled within the free-cancellation window and the booking was not marked no-show, the charge may be refundable. Support should collect the cancellation timestamp, property policy, and payment ownership details.  
+- It is essential to determine who collected the payment. If the property charged the guest directly, support must obtain the payment receipt, message trail, and cancellation timeline before proceeding.  
+- Any unresolved conflicts after verification should be escalated internally for resolution.
+
+Public policy:  
+- Booking.com allows properties to report guest no-shows through their partner account to manage overbookings and avoid penalties.  
+- Hosts can dispute invoices and commissions if they identify errors or discrepancies in charges from Booking.com.  
+- These procedures help ensure transparent handling of no-shows and payment disputes.
+
+Recommended action:  
+- Collect and review the guest’s cancellation timestamp, the property’s no-show report, and the applicable cancellation policy to verify the timeline.  
+- Confirm who processed the payment; if the property charged directly, request the payment receipt and communication records between guest and property.  
+- Compare all information to identify discrepancies regarding cancellation and no-show status.  
+- If conflicts persist, escalate the case internally and advise the property to use the Booking.com partner portal to report no-shows or dispute invoices as needed.
+
+Next steps:  
+1. Request the guest’s cancellation timestamp and the property’s no-show report along with the cancellation policy.  
+2. Verify payment ownership and, if applicable, obtain the payment receipt and message trail from the property.  
+3. Analyze all collected data to resolve the timeline and payment status.  
+4. If the issue remains unresolved, escalate internally and guide the property to report no-shows or dispute invoices via the Booking.com partner portal.
+
+Cited Sources:
+- https://partner.booking.com/en-gb/help/reservations/overbookings-no-shows/reporting-guests-no-shows-your-property
+- https://partner.booking.com/en-gb/help/reservations/changes-cancellations/handling-cancellation-fees-and-commission
+- /Users/ganesamaniankolappan/Documents/Temp_work/Agent/data/rag/refunds_policy.md
+- /Users/ganesamaniankolappan/Documents/Temp_work/Agent/data/rag/payment_disputes.md
+- https://partner.booking.com/en-us/help/commission-invoices-tax/invoices/disputing-your-invoice

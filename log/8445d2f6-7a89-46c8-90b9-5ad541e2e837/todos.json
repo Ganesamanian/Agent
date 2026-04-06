@@ -1,0 +1,37 @@
+[
+  {
+    "id": "rag",
+    "title": "Retrieve relevant Booking.com policies and dispute cases",
+    "owner": "Agent-1",
+    "status": "DONE",
+    "notes": ""
+  },
+  {
+    "id": "web",
+    "title": "Search for recent similar complaints and resolutions",
+    "owner": "Agent-1",
+    "status": "DONE",
+    "notes": ""
+  },
+  {
+    "id": "action",
+    "title": "Analyze gathered information to identify next steps for complaint triage",
+    "owner": "Agent-1",
+    "status": "DONE",
+    "notes": ""
+  },
+  {
+    "id": "next_steps",
+    "title": "Outline recommended actions for complaint handling and guest communication",
+    "owner": "Agent-1",
+    "status": "DONE",
+    "notes": ""
+  },
+  {
+    "id": "result",
+    "title": "Compile final triage report and resolution plan",
+    "owner": "Agent-1",
+    "status": "DONE",
+    "notes": ""
+  }
+]

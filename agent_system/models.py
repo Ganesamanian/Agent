@@ -48,7 +48,7 @@ class RunRequest:
     goal: str
     case_context: str = ""
     public_urls: Optional[List[str]] = None
-    user_id: str = "demo_user"
+    user_id: str = "gan"
     llm_provider: Optional[str] = None
     embedding_provider: Optional[str] = None
 

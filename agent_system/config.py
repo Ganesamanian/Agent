@@ -26,9 +26,7 @@ class AppConfig:
     request_timeout: int = int(os.getenv("REQUEST_TIMEOUT", "20"))
     llm_timeout: int = int(os.getenv("LLM_TIMEOUT", "60"))
     embed_timeout: int = int(os.getenv("EMBED_TIMEOUT", "30"))
-
-    langfuse_timeout: int = int(os.getenv("LANGFUSE_TIMEOUT", "30"))  # unused after Tracer fix
-
+    langfuse_timeout: int = int(os.getenv("LANGFUSE_TIMEOUT", "30"))  
     milvus_timeout: float = float(os.getenv("MILVUS_TIMEOUT", "20.0"))
     rag_dir: str = os.getenv("RAG_DIR", "./data/rag").strip() or "./data/rag"
     milvus_db_path: str = os.getenv("MILVUS_DB_PATH", "./vector_db/agent_rag.db").strip() or "./vector_db/agent_rag.db"
@@ -38,7 +36,7 @@ class AppConfig:
     langfuse_public_key: str = os.getenv("LANGFUSE_PUBLIC_KEY")
     langfuse_secret_key: str = os.getenv("LANGFUSE_SECRET_KEY")
     langfuse_host: str = os.getenv("LANGFUSE_HOST")
-    default_user_id: str = os.getenv("DEFAULT_USER_ID", "demo_user").strip() or "demo_user"
+    default_user_id: str = "gan"
     default_public_urls: List[str] = field(default_factory=lambda: list(DEFAULT_PUBLIC_URLS))
 
     @classmethod
