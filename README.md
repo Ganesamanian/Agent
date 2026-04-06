@@ -4,7 +4,7 @@ A minimal terminal-first agent workflow for complaint triage, combining planning
 
 ## Overview
 
-![Agent Flow](image/Agent_flow.png)
+![Agent Flow](Image/Agent_flow.png)
 
 This repository implements a simple three-agent system for Booking.com-like customer issues.
 
@@ -180,8 +180,8 @@ This repository avoids prompt overflow by:
 
 ## Evaluation Setup
 
-![LLM as Judge Evaluation](image/LLM_as_Judge.png)
-![Trace Evaluation](image/Trace_evaluation.png)
+![LLM as Judge Evaluation](Image/LLM_as_Judge.png)
+![Trace Evaluation](Image/Trace_evaluation.png)
 
 Used Langfuse LLM-as-a-Judge evaluators to measure the quality of agent outputs at different stages of execution.
 This helps us validate not only the final response, but also the intermediate steps such as planning, retrieval, and web search.
