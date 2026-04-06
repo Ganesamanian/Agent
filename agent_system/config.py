@@ -41,7 +41,20 @@ class AppConfig:
 
     @classmethod
     def from_env(cls) -> "AppConfig":
-        return cls()
+        inst = cls()
+        import yaml
+        prompts_path = os.getenv("PROMPTS_PATH", "./prompts.yaml").strip()
+        raw_prompts = {}
+        path = Path(prompts_path).expanduser()
+        if path.is_file():
+            with open(path, 'r') as f:
+                raw_prompts = yaml.safe_load(f) or {}
+        prompts = {}
+        for key, val in raw_prompts.items():
+            env_key = f"PROMPTS_{key.upper().replace('-', '_')}"
+            prompts[key] = os.getenv(env_key, str(val or ""))
+        inst.prompts = prompts
+        return inst
 
     @property
     def rag_path(self) -> Path:

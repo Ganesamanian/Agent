@@ -30,11 +30,7 @@ def moderate_output(text: str, provider: ModelProvider, config: AppConfig, llm_p
     LLM-based output moderation: Check for harmful/policy violation.
     Returns (text, is_flagged).
     """
-    system_prompt = (
-        "You are a safety evaluator for Booking.com support agents. "
-        "Check if this output is safe, ethical, follows Booking.com policies, non-harmful. "
-        "Respond ONLY 'SAFE' or 'FLAGGED: <reason>'."
-    )
+    system_prompt = config.prompts["moderation_system"]
     user_prompt = f"Output: {text}"
     
     response_tuple = provider.generate_text(

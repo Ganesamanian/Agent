@@ -48,8 +48,10 @@ class RagRetrieverAgent:
         try:
             context = "\n".join(f"- {item.title}: {item.excerpt}" for item in evidence[:3])
             system_prompt, user_prompt = self.tracer.get_prompt_from_langfuse("RagAgentPrompt", query, context)
-            citation_instruction = "\n\nIMPORTANT: Cite sources inline as [1], [2]. End with 'Sources: [1] {title1}, [2] {title2}' using top 3."
-            user_prompt += citation_instruction.format(title1=evidence[0].title if evidence else '', title2=evidence[1].title if len(evidence)>1 else '')
+            # system_prompt = self.config.prompts["rag_system"]
+            # user_prompt = self.config.prompts["rag_user"].format(query=query, context=context)
+            citation_instruction = self.config.prompts["rag_citation"].format(title1=evidence[0].title if evidence else '', title2=evidence[1].title if len(evidence)>1 else '')
+            user_prompt += citation_instruction
             text, tokens = self.provider.generate_text(provider=llm_provider, system_prompt=system_prompt, user_prompt=user_prompt)
             summary = text.strip()
             if obs:
@@ -173,8 +175,10 @@ class WebSearcherAgent:
         try:
             context = "\n".join(f"- {item.title}: {item.excerpt}" for item in evidence[:3])
             system_prompt, user_prompt = self.tracer.get_prompt_from_langfuse("WebAgentPrompt", query, context)
-            citation_instruction = "\n\nIMPORTANT: Cite sources inline as [1], [2]. End with 'Sources: [1] {url1}, [2] {url2}' using top 3."
-            user_prompt += citation_instruction.format(url1=evidence[0].url if evidence else '', url2=evidence[1].url if len(evidence)>1 else '')
+            # system_prompt = self.config.prompts["web_system"]
+            # user_prompt = self.config.prompts["web_user"].format(query=query, context=context)
+            citation_instruction = self.config.prompts["web_citation"].format(url1=evidence[0].url if evidence else '', url2=evidence[1].url if len(evidence)>1 else '')
+            user_prompt += citation_instruction
             text, tokens = self.provider.generate_text(provider=llm_provider, system_prompt=system_prompt, user_prompt=user_prompt)
             summary = text.strip()
             if obs:
@@ -252,19 +256,8 @@ class PlannerAgent:
     def plan(self, request: RunRequest) -> Dict[str, Any]:
         fallback = self._default_plan(request)
 
-        system_prompt = (
-            "You are Agent-1, the planner and orchestrator. "
-            "Return only valid JSON with keys: goal_summary, rag_query, web_keywords, tool_choice, tasks. "
-            "Use exactly these 5 task ids in this order: rag, web, action, next_steps, result. "
-            "Each task must include id, title, and owner. "
-            "tool_choice must be either 'serpapi' or 'beautifulsoup'."
-        )
-
-        user_prompt = (
-            f"Goal: {request.goal}\n"
-            f"Case context: {request.case_context or '(none)'}\n\n"
-            "Create a compact plan for a Booking.com complaint triage run."
-        )
+        system_prompt = self.config.prompts["planner_plan_system"]
+        user_prompt = self.config.prompts["planner_plan_user"].format(goal=request.goal, case_context=request.case_context or " (none)")
 
         model_name = self.config.get_generation_model(request.llm_provider)
         with self.tracer.observation(
@@ -298,16 +291,8 @@ class PlannerAgent:
             input={"goal": request.goal},
             metadata={"llm_provider": request.llm_provider, "llm_model": model_name},
         ) as obs:
-            system_prompt = (
-                "You are Agent-1. Combine internal and public evidence into a recommended action plan. "
-                "Be precise, grounded, and mention uncertainty if evidence conflicts."
-            )
-            user_prompt = (
-                f"Goal: {request.goal}\n\n"
-                f"Internal evidence summary:\n{rag_output.summary}\n\n"
-                f"Public evidence summary:\n{web_output.summary}\n\n"
-                "Write a concise action plan in 3 bullets."
-            )
+            system_prompt = self.config.prompts["planner_action_system"]
+            user_prompt = self.config.prompts["planner_action_user"].format(goal=request.goal, rag_summary=rag_output.summary, web_summary=web_output.summary)
             text, tokens = self.provider.generate_text(
                 provider=request.llm_provider,
                 system_prompt=system_prompt,
@@ -334,17 +319,8 @@ class PlannerAgent:
             input={"goal": request.goal},
             metadata={"llm_provider": request.llm_provider, "llm_model": model_name},
         ) as obs:
-            system_prompt = (
-                "You are Agent-1. Write operational next steps for a support/legal triage workflow. "
-                "Focus on missing facts, escalation, and what the operator should do next."
-            )
-            user_prompt = (
-                f"Goal: {request.goal}\n\n"
-                f"Action plan:\n{action_plan}\n\n"
-                f"Internal evidence:\n{rag_output.summary}\n\n"
-                f"Public evidence:\n{web_output.summary}\n\n"
-                "Write 4 short next steps."
-            )
+            system_prompt = self.config.prompts["planner_next_steps_system"]
+            user_prompt = self.config.prompts["planner_next_steps_user"].format(goal=request.goal, action_plan=action_plan, rag_summary=rag_output.summary, web_summary=web_output.summary)
             text, tokens = self.provider.generate_text(
                 provider=request.llm_provider,
                 system_prompt=system_prompt,
@@ -372,17 +348,8 @@ class PlannerAgent:
             input={"goal": request.goal},
             metadata={"llm_provider": request.llm_provider, "llm_model": model_name},
         ) as obs:
-            system_prompt = (
-                "You are Agent-1. Produce a final user-facing triage note. "
-                "Structure it as Issue, Internal policy, Public policy, Recommended action, Next steps."
-            )
-            user_prompt = (
-                f"Goal: {request.goal}\n\n"
-                f"Internal policy summary:\n{rag_output.summary}\n\n"
-                f"Public policy summary:\n{web_output.summary}\n\n"
-                f"Action plan:\n{action_plan}\n\n"
-                f"Next steps:\n{next_steps}"
-            )
+            system_prompt = self.config.prompts["planner_final_system"]
+            user_prompt = self.config.prompts["planner_final_user"].format(goal=request.goal, rag_summary=rag_output.summary, web_summary=web_output.summary, action_plan=action_plan, next_steps=next_steps)
             text, tokens = self.provider.generate_text(
                 provider=request.llm_provider,
                 system_prompt=system_prompt,
