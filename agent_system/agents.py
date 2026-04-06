@@ -32,7 +32,8 @@ class RagRetrieverAgent:
                 embedding_provider=embedding_provider,
             )
             summary = self._summarize(query, evidence, llm_provider=llm_provider)
-            output = AgentOutput(summary=summary, evidence=evidence)
+            cited_sources = list(set(e.source_path or e.url or e.title for e in evidence if e.source_path or e.url))
+            output = AgentOutput(summary=summary, evidence=evidence, cited_sources=cited_sources)
             if obs:
                 obs.update(output={
                     "summary": summary,
@@ -49,6 +50,8 @@ class RagRetrieverAgent:
         #                  "Do not invent rules. Mention uncertainty when evidence is incomplete." ) 
         # user_prompt = f"Task: {query}\n\nRetrieved internal evidence:\n{context}\n\nWrite 3 concise bullets."
         system_prompt, user_prompt = self.tracer.get_prompt_from_langfuse("RagAgentPrompt", query, context)
+        citation_instruction = "\n\nIMPORTANT: Cite sources inline as [1], [2]. End with 'Sources: [1] {title1}, [2] {title2}' using top 3."
+        user_prompt += citation_instruction.format(title1=evidence[0].title if evidence else '', title2=evidence[1].title if len(evidence)>1 else '')
         text = self.provider.generate_text(provider=llm_provider, system_prompt=system_prompt, user_prompt=user_prompt)
         if text.strip():
             return text.strip()
@@ -78,7 +81,8 @@ class WebSearcherAgent:
                 evidence = self._search_with_beautifulsoup(keywords, public_urls)
 
             summary = self._summarize(query, evidence, llm_provider=llm_provider)
-            output = AgentOutput(summary=summary, evidence=evidence)
+            cited_sources = list(set(e.source_path or e.url or e.title for e in evidence if e.source_path or e.url))
+            output = AgentOutput(summary=summary, evidence=evidence, cited_sources=cited_sources)
 
             if obs:
                 obs.update(output={
@@ -169,6 +173,8 @@ class WebSearcherAgent:
         # )
         # user_prompt = f"Task: {query}\n\nPublic evidence:\n{context}\n\nWrite 3 concise bullets."
         system_prompt, user_prompt = self.tracer.get_prompt_from_langfuse("WebAgentPrompt", query, context)
+        citation_instruction = "\n\nIMPORTANT: Cite sources inline as [1], [2]. End with 'Sources: [1] {url1}, [2] {url2}' using top 3."
+        user_prompt += citation_instruction.format(url1=evidence[0].url if evidence else '', url2=evidence[1].url if len(evidence)>1 else '')
         text = self.provider.generate_text(provider=llm_provider, system_prompt=system_prompt, user_prompt=user_prompt)
         if text.strip():
             return text.strip()

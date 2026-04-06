@@ -1,0 +1,27 @@
+Issue:
+The customer cancelled their booking within the free cancellation window but was still charged for the reservation.
+
+Internal policy:
+If a guest cancels within the free cancellation window and the booking is not marked as a no-show, the charge should be considered potentially refundable. Support must verify the exact cancellation timestamp, review the property's cancellation policy, and determine who collected the payment (Booking.com or the property). If the property charged directly, additional documentation such as the payment receipt and communication trail must be obtained. Refunds for non-refundable bookings are generally not issued unless there is duplicate charging, a property error, or a discrepancy in the policy shown at booking.
+
+Public policy:
+Refunds are provided when cancellations occur within the free cancellation window as per the property's stated policy. Customers are entitled to a refund if they comply with the cancellation terms and no no-show status applies.
+
+Recommended action:
+1. Verify the cancellation timestamp against the property's free cancellation window and confirm the booking was not marked as a no-show.  
+2. Obtain the property's cancellation policy and identify who collected the payment.  
+3. If the property charged directly, request the payment receipt, communication records, and cancellation timeline from the guest.  
+4. If evidence confirms cancellation within the free window and no policy violations, proceed with refunding the charge. If the booking is non-refundable or conflicting evidence arises, explain the policy clearly and escalate if needed.
+
+Next steps:
+- Contact the guest to request the exact cancellation timestamp and any relevant documentation.  
+- Confirm the property's cancellation policy and payment ownership.  
+- Collect additional evidence if the property charged directly.  
+- Review all information and decide on refund eligibility or escalate the case with detailed findings.
+
+Cited Sources:
+- https://partner.booking.com/en-us/help/reservations/reduce-cancellations/handling-cancellation-fees-and-commission
+- https://www.booking.com/tpi_faq.html
+- /Users/ganesamaniankolappan/Documents/Temp_work/Agent/data/rag/refunds_policy.md
+- https://www.booking.com/content/terms.html
+- /Users/ganesamaniankolappan/Documents/Temp_work/Agent/data/rag/payment_disputes.md

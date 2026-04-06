@@ -1,0 +1,13 @@
+[
+  "run started | llm=openai | embedding=gemini | session=7a951317-1553-424b-b28c-0203f9f1cdeb",
+  "agent-1: sending task to Agent-2 (RAG retriever)",
+  "agent-2: retrieved 3 internal chunks",
+  "agent-1: sending task to Agent-3 (serpapi)",
+  "agent-3: collected 3 public results using serpapi",
+  "agent-1: combining public and internal evidence",
+  "agent-1: action plan drafted (rag sources: 2, web: 3)",
+  "agent-1: planning operational next steps",
+  "agent-1: next steps drafted",
+  "agent-1: generating final result",
+  "agent-1: final result generated"
+]

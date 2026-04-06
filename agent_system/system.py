@@ -9,6 +9,7 @@ from .model_provider import ModelProvider
 from .rag_store import RagStore
 from .agents import RagRetrieverAgent, WebSearcherAgent, PlannerAgent
 from .tracer import Tracer
+from .guardrails import sanitize_input, moderate_output
 
 
 class ThreeAgentSystem:
@@ -44,8 +45,6 @@ class ThreeAgentSystem:
             "embedding_provider": embedding_provider,
         })
 
-
-
         with self.tracer.observation(
                 name=trace_name,
                 input={
@@ -61,6 +60,16 @@ class ThreeAgentSystem:
                 name=trace_name,
                 session_id=session_id,
             )
+            sanitized_goal, blocked = sanitize_input(request.goal)
+            if blocked:
+                raise ValueError("Input blocked by guardrail: Jailbreak detected")
+            request.goal = sanitized_goal
+            
+            sanitized_context, blocked = sanitize_input(request.case_context)
+            if blocked:
+                raise ValueError("Case context blocked by guardrail: Jailbreak detected")
+            request.case_context = sanitized_context
+            
             plan = self.planner.plan(request)
             tasks = [Task(**item) for item in plan["tasks"]]
 
@@ -133,7 +142,7 @@ class ThreeAgentSystem:
                     emit({
                         "type": "log",
                         "agent": "agent-1",
-                        "message": "action plan drafted",
+                        "message": f"action plan drafted (rag sources: {len(rag_output.cited_sources)}, web: {len(web_output.cited_sources)})",
                         "tasks": [t.to_dict() for t in tasks],
                     })
 
@@ -173,6 +182,14 @@ class ThreeAgentSystem:
                         action_plan=action_plan,
                         next_steps=next_steps,
                     )
+                    final_answer, flagged = moderate_output(final_answer, self.provider, self.config, llm_provider)
+                    if flagged:
+                        emit({
+                            "type": "log",
+                            "agent": "system",
+                            "message": "Final output FLAGGED by moderation guardrail",
+                            "tasks": [t.to_dict() for t in tasks],
+                        })
                     emit({
                         "type": "log",
                         "agent": "agent-1",
@@ -183,34 +200,40 @@ class ThreeAgentSystem:
                 task.status = "DONE"
                 emit({"type": "task_completed", "task": task.to_dict(), "tasks": [t.to_dict() for t in tasks]})
 
+            self.tracer.flush()
+
+            all_sources = list(set(rag_output.cited_sources + web_output.cited_sources))
+            full_final_answer = f"{final_answer}\n\nCited Sources:\n" + '\n'.join(f"- {s}" for s in all_sources) if all_sources else final_answer
+
             if workflow:
                 workflow.update(
                     output={
-                        "final_answer": final_answer,
+                        "final_answer": full_final_answer,
                         "rag_chunks": len(rag_output.evidence),
                         "web_results": len(web_output.evidence),
+                        "cited_sources": all_sources,
                     }
                 )
 
             self.tracer.update_current_trace(
                 output={
-                    "final_answer": final_answer,
+                    "final_answer": full_final_answer,
                     "rag_chunks": len(rag_output.evidence),
                     "web_results": len(web_output.evidence),
+                    "cited_sources": all_sources,
                 }
             )
 
-        self.tracer.flush()
-
-        return RunResult(
-            session_id=session_id,
-            llm_provider=llm_provider,
-            embedding_provider=embedding_provider,
-            tasks=tasks,
-            rag_output=rag_output,
-            web_output=web_output,
-            action_plan=action_plan,
-            next_steps=next_steps,
-            final_answer=final_answer,
-        )
+            return RunResult(
+                session_id=session_id,
+                llm_provider=llm_provider,
+                embedding_provider=embedding_provider,
+                tasks=tasks,
+                rag_output=rag_output,
+                web_output=web_output,
+                action_plan=action_plan,
+                next_steps=next_steps,
+                final_answer=full_final_answer,
+                cited_sources=all_sources,
+            )
 

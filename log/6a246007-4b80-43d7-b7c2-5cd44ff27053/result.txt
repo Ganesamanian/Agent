@@ -1,0 +1,29 @@
+Issue:  
+The customer cancelled their booking within the free cancellation window but was still charged for the reservation.
+
+Internal policy:  
+If a guest cancels within the free cancellation window and the booking is not marked as a no-show, the charge is potentially refundable. Support must verify the cancellation timestamp, review the property’s cancellation policy, and identify who processed the payment (Booking.com or the property). For payments collected directly by the property, additional documentation such as the payment receipt and property communications must be obtained before proceeding. Refunds are generally not issued for non-refundable bookings unless there is evidence of duplicate charges, property errors, or policy inconsistencies.
+
+Public policy:  
+Booking.com’s Terms and Partner Interface FAQs outline the responsibilities and obligations of partners, including accurate representation of cancellation policies and payment handling. These resources emphasize compliance with Booking.com standards to ensure transparency and reliability for customers and partners alike.
+
+Recommended action:  
+1. Confirm the guest’s cancellation timestamp to ensure it falls within the free cancellation window and verify the booking was not marked as a no-show.  
+2. Obtain the property’s cancellation policy and determine who processed the payment.  
+3. If the property charged directly, request the payment receipt, any relevant property communications, and the full cancellation timeline.  
+4. Assess the evidence to determine if the charge was valid; if not, initiate a refund or escalate the case to the appropriate team.  
+5. Communicate clearly with the customer about the findings, the refund status, and any next steps.
+
+Next steps:  
+- Contact the customer to confirm the cancellation timestamp and gather any relevant details.  
+- Reach out to the property to obtain their cancellation policy and payment information.  
+- Collect necessary documentation if the property processed the payment directly.  
+- Review all information to decide on refund eligibility or escalation.  
+- Provide the customer with a clear update and resolution timeline.
+
+Cited Sources:
+- https://partner.booking.com/en-us/help/reservations/reduce-cancellations/handling-cancellation-fees-and-commission
+- https://www.booking.com/content/terms.html
+- https://www.booking.com/tpi_faq.html
+- /Users/ganesamaniankolappan/Documents/Temp_work/Agent/data/rag/refunds_policy.md
+- /Users/ganesamaniankolappan/Documents/Temp_work/Agent/data/rag/payment_disputes.md

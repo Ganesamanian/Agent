@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from typing import Any, Dict, List, Optional
 
 @dataclass
@@ -33,11 +33,13 @@ class Evidence:
 class AgentOutput:
     summary: str
     evidence: List[Evidence]
+    cited_sources: List[str] = field(default_factory=list)
 
     def to_dict(self) -> Dict[str, Any]:
         return {
             "summary": self.summary,
             "evidence": [item.to_dict() for item in self.evidence],
+            "cited_sources": self.cited_sources,
         }
 
 
@@ -62,6 +64,7 @@ class RunResult:
     action_plan: str
     next_steps: str
     final_answer: str
+    cited_sources: List[str] = field(default_factory=list)
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -74,5 +77,6 @@ class RunResult:
             "action_plan": self.action_plan,
             "next_steps": self.next_steps,
             "final_answer": self.final_answer,
+            "cited_sources": self.cited_sources,
         }
 
