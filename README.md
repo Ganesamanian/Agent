@@ -239,3 +239,82 @@ can be interpreted as:
 - the planner produced a useful response,
 - the output did not contain unsupported information,
 - and the retrieved/search results were relevant to the task.
+
+## Design Tradeoffs
+
+### Trade-offs Made
+- **CLI over UI:** Focused on a terminal-first interface to keep the scope small and demonstrate the core agent loop without adding frontend complexity.
+- **Fixed Task Structure:** Used a rigid 5-task pipeline (rag, web, action, next_steps, result) instead of dynamic planning to simplify the execution loop and ensure reliability.
+- **Custom Orchestration:** Built everything from scratch without agent frameworks like LangChain or AutoGen, which increased development time but provided full control and understanding of the system.
+- **Correctness over Features:** Prioritized a working, correct implementation over extras like persistence or multi-turn conversations to meet the core requirements within the time frame.
+
+## What I Could Improve or Extend
+
+- **Minimal UI/Dashboard:** Add a simple web interface using Flask or Streamlit to visualize task progress and allow interactive task management.
+- **Persistence and Resume:** Implement session state storage (e.g., in JSON or database) to allow resuming interrupted runs or handling multi-turn conversations.
+- **Expanded Tool Set:** Integrate additional tools like API calls to external services, document editing capabilities, or more search sources beyond Booking.com.
+- **Dynamic Planning:** Make the planner generate a variable number of tasks based on goal complexity, rather than the fixed 5-task structure.
+- **Multi-turn Support:** Extend the system to handle follow-up questions and maintain conversation context across multiple interactions.
+- **Enhanced Evaluation:** Add more automated tests, user feedback loops, and metrics like response time, accuracy on benchmark datasets, and user satisfaction surveys.
+
+
+## Example Transcript
+
+Below is a real session transcript from running the agent on a customer complaint about a no-show marking after cancellation.
+"PENDING": "[ ]", "IN_PROGRESS": "[~]", "DONE": "[x]"
+
+**User Goal:** A property marked a reservation as a no-show after the guest claims they cancelled the booking.
+
+**Generated Plan:**
+- [x] Retrieve relevant documents and policies on Booking.com no-show and cancellation disputes
+- [x] Search for recent cases and guidelines on Booking.com no-show complaints and guest cancellation claims
+- [x] Analyze gathered information to identify steps for complaint triage and resolution
+- [~] Outline actionable next steps for complaint handling and communication with property and guest
+- [ ] Compile a summary report of findings and recommended complaint triage actions
+
+**Execution Logs:**
+- run started | llm=openai | embedding=openai | session=2841d8ac-1fcc-4ba5-acf3-a5fdbbd60d4e
+- agent-1: sending task to Agent-2 (RAG retriever)
+- agent-2: retrieved 3 internal chunks
+- agent-1: sending task to Agent-3 (serpapi)
+- agent-3: collected 3 public results using serpapi
+- agent-1: combining public and internal evidence
+- agent-1: action plan drafted (rag sources: 2, web: 3)
+- agent-1: planning operational next steps
+- agent-1: next steps drafted
+- agent-1: generating final result
+- agent-1: final result generated
+
+**Final Result:**
+
+Issue:  
+A property marked a reservation as a no-show after the guest claims they cancelled the booking. There is a need to verify the accuracy of the no-show status and assess refund eligibility.
+
+Internal policy:  
+- Support must verify the timeline of the guest’s cancellation versus when the property marked the booking as no-show; escalate if there are timeline conflicts [1].  
+- If the guest cancelled within the free-cancellation window and the booking was not marked no-show correctly, the charge may be refundable. Support should collect the cancellation timestamp, property policy, and payment ownership details before responding [2].  
+- It is essential to determine who collected the payment (Booking.com or the property). If the property charged directly, support must obtain the payment receipt, message trail, and cancellation timeline from the property before proceeding [3].
+
+Public policy:  
+- Properties can report guests as no-shows through the partner platform to manage overbookings and no-shows [1].  
+- Properties may request removal of guest reviews that violate Booking.com’s content guidelines by submitting a removal request with justification via the partner help center [2].  
+- These processes ensure accurate reservation records and maintain review integrity on Booking.com [1][2].
+
+Recommended action:  
+- Verify the exact timeline of the guest’s cancellation and when the property marked the booking as no-show. Escalate if discrepancies arise.  
+- Confirm who processed the payment. If the property charged directly, request the payment receipt, message trail, and cancellation timeline from the property.  
+- If cancellation was within the free-cancellation window and the no-show marking appears incorrect, consider the charge potentially refundable. Communicate with the property through the partner platform to correct the reservation status.  
+- If applicable, guide the property on how to request removal of any guest reviews that violate content guidelines.
+
+Next steps:  
+1. Request and verify the guest’s cancellation timestamp and the time the property marked the booking as no-show; identify any timeline conflicts.  
+2. Confirm payment processing party; if the property charged directly, obtain payment receipt, message trail, and cancellation details from the property.  
+3. If cancellation was timely and no-show marking is incorrect, flag the charge as potentially refundable and prepare to engage with the property.  
+4. Contact the property via the partner platform to correct the reservation status and advise on submitting a guest review removal request if necessary.
+
+Cited Sources:
+- https://partner.booking.com/en-us/help/guest-reviews/general/how-request-removal-guest-review
+- /Users/ganesamaniankolappan/Documents/Temp_work/Agent/data/rag/refunds_policy.md
+- /Users/ganesamaniankolappan/Documents/Temp_work/Agent/data/rag/payment_disputes.md
+- https://partner.booking.com/en-gb/help/reservations/overbookings-no-shows/reporting-guests-no-shows-your-property
+- https://www.booking.com/content/terms.html
