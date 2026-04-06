@@ -45,16 +45,20 @@ class RagRetrieverAgent:
     def _summarize(self, query: str, evidence: List[Evidence], *, llm_provider: Optional[str], obs) -> str:
         if not evidence:
             return "No internal policy chunks were retrieved."
-        context = "\n".join(f"- {item.title}: {item.excerpt}" for item in evidence[:3])
-        system_prompt, user_prompt = self.tracer.get_prompt_from_langfuse("RagAgentPrompt", query, context)
-        citation_instruction = "\n\nIMPORTANT: Cite sources inline as [1], [2]. End with 'Sources: [1] {title1}, [2] {title2}' using top 3."
-        user_prompt += citation_instruction.format(title1=evidence[0].title if evidence else '', title2=evidence[1].title if len(evidence)>1 else '')
-        text, tokens = self.provider.generate_text(provider=llm_provider, system_prompt=system_prompt, user_prompt=user_prompt)
-        summary = text.strip()
-        if obs:
-            obs.update(total_tokens=tokens)
-        if summary:
-            return summary
+        try:
+            context = "\n".join(f"- {item.title}: {item.excerpt}" for item in evidence[:3])
+            system_prompt, user_prompt = self.tracer.get_prompt_from_langfuse("RagAgentPrompt", query, context)
+            citation_instruction = "\n\nIMPORTANT: Cite sources inline as [1], [2]. End with 'Sources: [1] {title1}, [2] {title2}' using top 3."
+            user_prompt += citation_instruction.format(title1=evidence[0].title if evidence else '', title2=evidence[1].title if len(evidence)>1 else '')
+            text, tokens = self.provider.generate_text(provider=llm_provider, system_prompt=system_prompt, user_prompt=user_prompt)
+            summary = text.strip()
+            if obs:
+                obs.update(total_tokens=tokens)
+            if summary:
+                return summary
+        except Exception:
+            # LLM summarization failed: fallback to bullets
+            pass
         bullets = [f"- {item.title}: {item.excerpt}" for item in evidence[:3]]
         return "\n".join(bullets)
 
@@ -118,7 +122,7 @@ class WebSearcherAgent:
                     excerpt=shorten(snippet, 280),
                     source_type="web",
                     url=link,
-                    score=float(self.config.web_top_k - idx + 1),
+                    score=float(self.config.web_top_k - idx +1),
                 )
             )
         return evidence
@@ -166,16 +170,20 @@ class WebSearcherAgent:
     def _summarize(self, query: str, evidence: List[Evidence], *, llm_provider: Optional[str], obs) -> str:
         if not evidence:
             return "No public Booking.com evidence was found from the configured web sources."
-        context = "\n".join(f"- {item.title}: {item.excerpt}" for item in evidence[:3])
-        system_prompt, user_prompt = self.tracer.get_prompt_from_langfuse("WebAgentPrompt", query, context)
-        citation_instruction = "\n\nIMPORTANT: Cite sources inline as [1], [2]. End with 'Sources: [1] {url1}, [2] {url2}' using top 3."
-        user_prompt += citation_instruction.format(url1=evidence[0].url if evidence else '', url2=evidence[1].url if len(evidence)>1 else '')
-        text, tokens = self.provider.generate_text(provider=llm_provider, system_prompt=system_prompt, user_prompt=user_prompt)
-        summary = text.strip()
-        if obs:
-            obs.update(total_tokens=tokens)
-        if summary:
-            return summary
+        try:
+            context = "\n".join(f"- {item.title}: {item.excerpt}" for item in evidence[:3])
+            system_prompt, user_prompt = self.tracer.get_prompt_from_langfuse("WebAgentPrompt", query, context)
+            citation_instruction = "\n\nIMPORTANT: Cite sources inline as [1], [2]. End with 'Sources: [1] {url1}, [2] {url2}' using top 3."
+            user_prompt += citation_instruction.format(url1=evidence[0].url if evidence else '', url2=evidence[1].url if len(evidence)>1 else '')
+            text, tokens = self.provider.generate_text(provider=llm_provider, system_prompt=system_prompt, user_prompt=user_prompt)
+            summary = text.strip()
+            if obs:
+                obs.update(total_tokens=tokens)
+            if summary:
+                return summary
+        except Exception:
+            # LLM summarization failed: fallback to bullets
+            pass
         bullets = [f"- {item.title}: {item.excerpt}" for item in evidence[:3]]
         return "\n".join(bullets)
 

@@ -207,9 +207,9 @@ class RagStore:
         client = self._client()
         try:
             if not client.has_collection(collection_name=collection_name):
-                raise FileNotFoundError(
-                    f"RAG collection '{collection_name}' not found. Run `python run_milvius.py --embedding-provider {provider_name}` first."
-                )
+                # Graceful handling for empty RAG store: return empty evidence instead of crashing
+                client.close()
+                return []
             query_vector = self.provider.embed_texts([query], provider=provider_name)[0]
             results = client.search(
                 collection_name=collection_name,

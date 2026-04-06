@@ -1,0 +1,37 @@
+[
+  {
+    "id": "rag",
+    "title": "Retrieve relevant documents and data on Booking.com refund complaints",
+    "owner": "Agent-1",
+    "status": "DONE",
+    "notes": ""
+  },
+  {
+    "id": "web",
+    "title": "Search latest information and policies on Booking.com refunds and complaint handling",
+    "owner": "Agent-1",
+    "status": "DONE",
+    "notes": ""
+  },
+  {
+    "id": "action",
+    "title": "Analyze case details and identify reasons for refund not being booked",
+    "owner": "Agent-1",
+    "status": "DONE",
+    "notes": ""
+  },
+  {
+    "id": "next_steps",
+    "title": "Formulate resolution steps and communication plan for customer refund escalation",
+    "owner": "Agent-1",
+    "status": "DONE",
+    "notes": ""
+  },
+  {
+    "id": "result",
+    "title": "Compile final report and recommended actions for Booking.com refund complaint triage",
+    "owner": "Agent-1",
+    "status": "DONE",
+    "notes": ""
+  }
+]

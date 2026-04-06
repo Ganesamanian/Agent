@@ -99,11 +99,16 @@ class ThreeAgentSystem:
                         "message": "sending task to Agent-2 (RAG retriever)",
                         "tasks": [t.to_dict() for t in tasks],
                     })
-                    rag_output = self.rag_agent.run(
-                        plan["rag_query"],
-                        llm_provider=llm_provider,
-                        embedding_provider=embedding_provider,
-                    )
+                    try:
+                        rag_output = self.rag_agent.run(
+                            plan["rag_query"],
+                            llm_provider=llm_provider,
+                            embedding_provider=embedding_provider,
+                        )
+                    except Exception as e:
+                        error_msg = f"RAG agent failed: {str(e)[:100]}"
+                        emit({"type": "log", "agent": "system", "message": error_msg})
+                        rag_output = AgentOutput(summary=error_msg, evidence=[])
                     emit({
                         "type": "log",
                         "agent": "agent-2",
@@ -119,13 +124,18 @@ class ThreeAgentSystem:
                         "tasks": [t.to_dict() for t in tasks],
                     })
 
-                    web_output = self.web_agent.run(
-                        request.goal,
-                        keywords=plan["web_keywords"],
-                        public_urls=public_urls,
-                        tool=plan["tool_choice"],
-                        llm_provider=llm_provider,
-                    )
+                    try:
+                        web_output = self.web_agent.run(
+                            request.goal,
+                            keywords=plan["web_keywords"],
+                            public_urls=public_urls,
+                            tool=plan["tool_choice"],
+                            llm_provider=llm_provider,
+                        )
+                    except Exception as e:
+                        error_msg = f"Web agent failed: {str(e)[:100]}"
+                        emit({"type": "log", "agent": "system", "message": error_msg})
+                        web_output = AgentOutput(summary=error_msg, evidence=[])
                     emit({
                         "type": "log",
                         "agent": "agent-3",

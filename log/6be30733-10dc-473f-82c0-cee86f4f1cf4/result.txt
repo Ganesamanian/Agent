@@ -1,0 +1,25 @@
+Issue:
+A guest claims to have cancelled their booking, but the property has marked the reservation as a no-show.
+
+Internal policy:
+No specific internal policy was provided regarding handling no-shows or cancellations.
+
+Public policy:
+Booking.com allows property partners to report guests as no-shows only if the guest fails to arrive without a prior valid cancellation. Reporting a no-show is done through the partner extranet by verifying reservation details and submitting a no-show report. Accurate reporting maintains reservation integrity and impacts guest reviews and future bookings.
+
+Recommended action:
+1. Verify the guest’s cancellation status by thoroughly checking the reservation details and any cancellation confirmation in the Booking.com partner extranet.
+2. If no valid cancellation is recorded and the guest did not arrive, proceed to report the guest as a no-show through the official Booking.com partner extranet process.
+3. Document all communications with the guest and evidence related to their cancellation claim and your verification steps to support your no-show report.
+4. If there is any dispute or conflicting information, escalate the matter to Booking.com support or the legal team for further review.
+
+Next steps:
+- Review the booking record in the partner extranet to confirm whether the guest’s cancellation was properly registered.
+- If no cancellation is found and the guest did not check in, submit the no-show report via the partner extranet.
+- Keep detailed records of all interactions and evidence concerning the guest’s claim and your verification.
+- Contact Booking.com support if discrepancies remain unresolved or if you need assistance with dispute resolution.
+
+Cited Sources:
+- https://partner.booking.com/en-us/help/commission-invoices-tax/invoices/disputing-your-invoice
+- https://partner.booking.com/en-gb/help/reservations/overbookings-no-shows/reporting-guests-no-shows-your-property
+- https://partner.booking.com/en-us/help/guest-reviews/general/how-request-removal-guest-review

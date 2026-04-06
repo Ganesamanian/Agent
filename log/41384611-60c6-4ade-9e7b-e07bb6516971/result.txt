@@ -1,0 +1,22 @@
+Issue:
+Testing the Retrieval-Augmented Generation (RAG) system for a "property no-show dispute" query currently yields no internal policy information, indicating an empty or failed retrieval.
+
+Internal policy:
+No internal policy documents or data chunks related to "property no-show dispute" were retrieved, suggesting either absence of indexed content or retrieval issues.
+
+Public policy:
+No public policy summary is available without a specific query or detailed context regarding the property no-show dispute.
+
+Recommended action:
+Clarify and define the exact query and context for the property no-show dispute to enable targeted retrieval. Confirm the existence and indexing status of relevant internal policy documents. If none exist or retrieval fails, escalate to data management for investigation and remediation.
+
+Next steps:
+1. Request from the user a precise query or detailed description of the property no-show dispute scenario.  
+2. Check internal data sources for relevant policy content and verify indexing completeness.  
+3. If gaps are found, escalate to the data management team to address missing or unindexed policy chunks.  
+4. Once relevant data is confirmed, perform a controlled RAG test with the clarified query to validate retrieval and generation accuracy.
+
+Cited Sources:
+- https://secure.booking.com/faq.en-us.html?aid=330843
+- https://www.booking.com/content/terms.html
+- https://www.booking.com/content/privacy.html

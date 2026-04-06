@@ -1,0 +1,37 @@
+[
+  {
+    "id": "rag",
+    "title": "Retrieve relevant documents for property no-show dispute",
+    "owner": "Agent-1",
+    "status": "DONE",
+    "notes": ""
+  },
+  {
+    "id": "web",
+    "title": "Search web for Booking.com complaint triage best practices",
+    "owner": "Agent-1",
+    "status": "DONE",
+    "notes": ""
+  },
+  {
+    "id": "action",
+    "title": "Analyze retrieved data and prepare triage steps",
+    "owner": "Agent-1",
+    "status": "DONE",
+    "notes": ""
+  },
+  {
+    "id": "next_steps",
+    "title": "Outline next steps for complaint triage run",
+    "owner": "Agent-1",
+    "status": "DONE",
+    "notes": ""
+  },
+  {
+    "id": "result",
+    "title": "Compile and present the compact plan",
+    "owner": "Agent-1",
+    "status": "DONE",
+    "notes": ""
+  }
+]

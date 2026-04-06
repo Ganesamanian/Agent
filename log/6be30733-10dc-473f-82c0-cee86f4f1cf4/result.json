@@ -1,0 +1,92 @@
+{
+  "session_id": "6be30733-10dc-473f-82c0-cee86f4f1cf4",
+  "llm_provider": "openai",
+  "embedding_provider": "openai",
+  "tasks": [
+    {
+      "id": "rag",
+      "title": "Retrieve relevant documents and policies on Booking.com no-show and cancellation disputes",
+      "owner": "Agent-1",
+      "status": "DONE",
+      "notes": ""
+    },
+    {
+      "id": "web",
+      "title": "Search for recent cases and guidelines on Booking.com no-show complaints and guest cancellations",
+      "owner": "Agent-1",
+      "status": "DONE",
+      "notes": ""
+    },
+    {
+      "id": "action",
+      "title": "Analyze gathered information to identify steps for complaint triage and resolution",
+      "owner": "Agent-1",
+      "status": "DONE",
+      "notes": ""
+    },
+    {
+      "id": "next_steps",
+      "title": "Outline a complaint triage plan including verification, communication, and escalation procedures",
+      "owner": "Agent-1",
+      "status": "DONE",
+      "notes": ""
+    },
+    {
+      "id": "result",
+      "title": "Deliver a compact, actionable plan for handling the Booking.com no-show complaint",
+      "owner": "Agent-1",
+      "status": "DONE",
+      "notes": ""
+    }
+  ],
+  "rag_output": {
+    "summary": "No internal policy chunks were retrieved.",
+    "evidence": [],
+    "cited_sources": []
+  },
+  "web_output": {
+    "summary": "Task: How to report guests as no-shows on Booking.com\n\nPublic evidence:\n- Booking.com allows property partners to report guests as no-shows if they fail to arrive without prior cancellation.\n- The reporting process involves accessing the reservation details and submitting a no-show report through the partner extranet.\n- Accurate reporting helps maintain reservation integrity and can affect guest reviews and future bookings.\n\nSources: [1] https://partner.booking.com/en-gb/help/reservations/overbookings-no-shows/reporting-guests-no-shows-your-property, [2] https://partner.booking.com/en-us/help/guest-reviews/general/how-request-removal-guest-review",
+    "evidence": [
+      {
+        "evidence_id": "web_1",
+        "title": "Reporting guests no-shows at your property - Partner Hub",
+        "excerpt": "You can mark the booking as a no-show. This prevents guests from automatically receiving a satisfaction survey when they didn't stay with you.",
+        "source_type": "web",
+        "score": 3.0,
+        "url": "https://partner.booking.com/en-gb/help/reservations/overbookings-no-shows/reporting-guests-no-shows-your-property",
+        "source_path": null
+      },
+      {
+        "evidence_id": "web_2",
+        "title": "How to request the removal of a guest review - Partner Hub",
+        "excerpt": "The reservation is marked as a no-show and the review doesn't detail the guest's experience; You canceled the booking on the planned day of ...",
+        "source_type": "web",
+        "score": 2.0,
+        "url": "https://partner.booking.com/en-us/help/guest-reviews/general/how-request-removal-guest-review",
+        "source_path": null
+      },
+      {
+        "evidence_id": "web_3",
+        "title": "Disputing your invoice",
+        "excerpt": "If you fail to mark a no-show, guests will still be able to leave a review, which then serves as proof of a completed booking. Read this article ...",
+        "source_type": "web",
+        "score": 1.0,
+        "url": "https://partner.booking.com/en-us/help/commission-invoices-tax/invoices/disputing-your-invoice",
+        "source_path": null
+      }
+    ],
+    "cited_sources": [
+      "https://partner.booking.com/en-us/help/commission-invoices-tax/invoices/disputing-your-invoice",
+      "https://partner.booking.com/en-gb/help/reservations/overbookings-no-shows/reporting-guests-no-shows-your-property",
+      "https://partner.booking.com/en-us/help/guest-reviews/general/how-request-removal-guest-review"
+    ]
+  },
+  "action_plan": "- Verify the guest\u2019s cancellation status by checking the reservation details and any cancellation confirmation in the Booking.com partner extranet to confirm if the cancellation was properly recorded.  \n- If no valid cancellation is found and the guest did not arrive, proceed to report the guest as a no-show by submitting the no-show report through the partner extranet following Booking.com\u2019s official process.  \n- Document all communications and evidence regarding the guest\u2019s claim and your verification steps to support the no-show report and address any potential disputes.",
+  "next_steps": "1. Confirm whether the guest\u2019s cancellation is recorded by reviewing the reservation details and cancellation confirmations in the partner extranet.  \n2. If no cancellation is found and the guest did not check in, submit the no-show report through the partner extranet following Booking.com\u2019s official procedure.  \n3. Collect and document all relevant communications and evidence related to the guest\u2019s cancellation claim and your verification process.  \n4. If discrepancies or disputes arise, escalate the case to Booking.com support or legal team for further investigation and resolution.",
+  "final_answer": "Issue:\nA guest claims to have cancelled their booking, but the property has marked the reservation as a no-show.\n\nInternal policy:\nNo specific internal policy was provided regarding handling no-shows or cancellations.\n\nPublic policy:\nBooking.com allows property partners to report guests as no-shows only if the guest fails to arrive without a prior valid cancellation. Reporting a no-show is done through the partner extranet by verifying reservation details and submitting a no-show report. Accurate reporting maintains reservation integrity and impacts guest reviews and future bookings.\n\nRecommended action:\n1. Verify the guest\u2019s cancellation status by thoroughly checking the reservation details and any cancellation confirmation in the Booking.com partner extranet.\n2. If no valid cancellation is recorded and the guest did not arrive, proceed to report the guest as a no-show through the official Booking.com partner extranet process.\n3. Document all communications with the guest and evidence related to their cancellation claim and your verification steps to support your no-show report.\n4. If there is any dispute or conflicting information, escalate the matter to Booking.com support or the legal team for further review.\n\nNext steps:\n- Review the booking record in the partner extranet to confirm whether the guest\u2019s cancellation was properly registered.\n- If no cancellation is found and the guest did not check in, submit the no-show report via the partner extranet.\n- Keep detailed records of all interactions and evidence concerning the guest\u2019s claim and your verification.\n- Contact Booking.com support if discrepancies remain unresolved or if you need assistance with dispute resolution.\n\nCited Sources:\n- https://partner.booking.com/en-us/help/commission-invoices-tax/invoices/disputing-your-invoice\n- https://partner.booking.com/en-gb/help/reservations/overbookings-no-shows/reporting-guests-no-shows-your-property\n- https://partner.booking.com/en-us/help/guest-reviews/general/how-request-removal-guest-review",
+  "cited_sources": [
+    "https://partner.booking.com/en-us/help/commission-invoices-tax/invoices/disputing-your-invoice",
+    "https://partner.booking.com/en-gb/help/reservations/overbookings-no-shows/reporting-guests-no-shows-your-property",
+    "https://partner.booking.com/en-us/help/guest-reviews/general/how-request-removal-guest-review"
+  ]
+}

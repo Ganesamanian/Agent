@@ -1,0 +1,28 @@
+Issue:  
+The customer is escalating a refund request that has not been processed. The booking in question is potentially non-refundable, and the refund has not been automatically booked.
+
+Internal policy:  
+Refunds for non-refundable bookings should not be promised unless there is evidence of duplicate charging, a property error, or inconsistent policy display at the time of booking. It is essential to determine who collected the payment—if the property charged directly, all payment receipts, message trails, and cancellation timelines must be gathered before proceeding. Medium-risk refund complaints involving no-shows, unclear property policies, or incomplete payment evidence must be escalated according to the internal escalation matrix.
+
+Public policy:  
+Booking.com partners can submit complaints or report technical issues through a dedicated support contact form on the partner help page. This process requires detailed information to facilitate resolution and follows a structured complaints handling procedure to address partner concerns efficiently.
+
+Recommended action:  
+1. Verify who collected the payment for the booking. If the property charged directly, request all relevant payment documentation and communication records.  
+2. Review the booking’s refund eligibility by checking for duplicate charges, property errors, or inconsistencies in the displayed policy.  
+3. If the refund request involves medium-risk factors such as no-shows, unclear policies, or incomplete evidence, escalate the case per the internal escalation matrix.  
+4. Advise the customer or property partner to submit a detailed complaint or technical issue report via Booking.com’s partner support contact form to ensure proper documentation and facilitate resolution.
+
+Next steps:  
+- Confirm payment collection details and gather all necessary documentation from the property if applicable.  
+- Assess the booking’s refund eligibility based on internal policy criteria.  
+- Escalate the case if medium-risk factors are identified.  
+- Guide the customer or property partner to use the official Booking.com partner support contact form for complaint submission to ensure the issue is formally recorded and addressed.
+
+Cited Sources:
+- https://partner.booking.com/en-us/help/support-contact/contact/submitting-complaint-or-reporting-technical-issue
+- https://partner.booking.com/en-gb/complaints-handling
+- /Users/ganesamaniankolappan/Documents/Temp_work/Agent/data/rag/refunds_policy.md
+- https://www.booking.com/guides/article/flights/know-your-rights-flight-delayed-compensation.html
+- /Users/ganesamaniankolappan/Documents/Temp_work/Agent/data/rag/escalation_matrix.md
+- /Users/ganesamaniankolappan/Documents/Temp_work/Agent/data/rag/payment_disputes.md

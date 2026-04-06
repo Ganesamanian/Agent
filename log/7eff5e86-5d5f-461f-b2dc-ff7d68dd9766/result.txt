@@ -1,0 +1,30 @@
+Issue:  
+A property marked a booking as a no-show after the guest claims they cancelled the reservation. There is a need to verify the accuracy of the no-show marking and determine the appropriate refund or dispute handling.
+
+Internal policy:  
+- Support must verify the timeline of the guest’s cancellation claim against the property’s no-show marking; any timeline conflicts should be escalated [1].  
+- If the guest cancelled within the free-cancellation window and the booking was not marked no-show at that time, the charge may be refundable. Support should gather the cancellation timestamp, property cancellation policy, and payment ownership details before responding [2].  
+- It is essential to determine who collected the payment (Booking.com or the property). If the property charged directly, support must collect payment receipts, message trails, and cancellation timelines before proceeding [3].
+
+Public policy:  
+- Properties must report guest no-shows by following Booking.com’s procedures via the partner portal, including proper documentation of the no-show [1].  
+- To request removal of guest reviews, properties must submit evidence that the review violates Booking.com’s content guidelines or is fraudulent, also through the partner interface [2].  
+- Both no-show reporting and review removal requests are managed exclusively through the Booking.com partner platform to ensure compliance [1][2].
+
+Recommended action:  
+- Verify and compare the guest’s cancellation timestamp with the property’s no-show marking time; escalate internally if there are discrepancies.  
+- Confirm if the cancellation was within the free-cancellation window and identify who collected the payment. Collect all relevant documentation such as cancellation timestamps, property policies, payment receipts, and message trails.  
+- Advise the property to report the no-show through the Booking.com partner portal with appropriate evidence. If the guest left a review, guide the property on how to submit a removal request with supporting proof if the review breaches guidelines.
+
+Next steps:  
+1. Request the guest’s cancellation timestamp and compare it with the property’s no-show marking time; escalate if timeline conflicts are found.  
+2. Determine if the cancellation was within the free-cancellation period and identify payment ownership; gather all relevant documentation.  
+3. If the property charged directly, obtain payment receipts and message history related to the cancellation and no-show.  
+4. Instruct the property to report the no-show via the Booking.com partner portal with proper documentation. If applicable, assist the property in submitting a guest review removal request with evidence through the partner interface.
+
+Cited Sources:
+- https://partner.booking.com/en-us/help/reservations/overbookings-no-shows/reporting-guest-no-shows-your-property
+- https://www.booking.com/content/terms.html
+- /Users/ganesamaniankolappan/Documents/Temp_work/Agent/data/rag/refunds_policy.md
+- https://partner.booking.com/en-us/help/guest-reviews/general/how-request-removal-guest-review
+- /Users/ganesamaniankolappan/Documents/Temp_work/Agent/data/rag/payment_disputes.md

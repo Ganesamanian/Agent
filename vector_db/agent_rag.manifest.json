@@ -1,7 +1,7 @@
 {
-  "collection_name": "booking_policy_chunks_gemini_gemini_embedding_001",
+  "collection_name": "booking_policy_chunks_openai_text_embedding_3_small",
   "corpus_hash": "359578a120bddc5c946efed78973021957d5562ae603f4657d05ad69403f6e17",
   "chunk_count": 16,
-  "embedding_provider": "gemini",
-  "embedding_model": "gemini-embedding-001"
+  "embedding_provider": "openai",
+  "embedding_model": "text-embedding-3-small"
 }
