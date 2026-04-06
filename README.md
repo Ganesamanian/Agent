@@ -4,6 +4,8 @@ A minimal terminal-first agent workflow for complaint triage, combining planning
 
 ## Overview
 
+![Agent Flow](image/Agent_flow.png)
+
 This repository implements a simple three-agent system for Booking.com-like customer issues.
 
 - **Agent-1 Planner** creates a structured plan from a user goal.
@@ -176,8 +178,64 @@ This repository avoids prompt overflow by:
 - SerpAPI is optional — fallback is BeautifulSoup scraping of provided public URLs.
 - `log/` stores output artifacts per run.
 
-## Recommended next steps
+## Evaluation Setup
 
-- Add `.env.example` if missing to document required API keys.
-- Confirm your host and API credentials before switching providers.
-- Use `app.py` for the live Streamlit experience once the CLI flow is stable.
+![LLM as Judge Evaluation](image/LLM_as_Judge.png)
+![Trace Evaluation](image/Trace_evaluation.png)
+
+Used Langfuse LLM-as-a-Judge evaluators to measure the quality of agent outputs at different stages of execution.
+This helps us validate not only the final response, but also the intermediate steps such as planning, retrieval, and web search.
+
+### Evaluators Used
+
+**Helpfulness**  
+Measures whether the generated response is useful, clear, and aligned with the user’s request.  
+A higher score indicates that the response is actionable and answers the task effectively.
+
+**Hallucination**  
+Measures whether the response contains unsupported, fabricated, or misleading information.  
+A lower score is better here, since it indicates the model stayed grounded and avoided making things up.
+
+**Relevance**  
+Measures whether the retrieved or generated content is relevant to the current task or query.  
+A higher score indicates that the agent is selecting information that is closely related to the user’s intent.
+
+### How the Evaluation Is Applied
+
+The evaluators are attached to different parts of the agent trace:
+
+- Planner output is checked for Helpfulness and Hallucination
+- Retriever results are checked for Relevance
+- Web search results are also checked for Relevance
+
+This lets us evaluate the system at a component level instead of only judging the final answer.  
+For example:
+
+A high helpfulness score means the planner is producing useful next steps  
+A low hallucination score means the planner output is grounded  
+A high relevance score means the retriever and web searcher are fetching useful supporting information
+
+### Why This Matters
+
+By evaluating each stage independently, we can identify where the pipeline performs well and where it needs improvement.  
+This makes debugging easier and provides a more reliable way to improve overall agent quality.
+
+**Typical benefits of this setup:**
+- Detect unhelpful planning steps early
+- Catch hallucinated content before it reaches the final answer
+- Verify that retrieval and search components are returning contextually relevant information
+- Improve trust and consistency in the end-to-end agent workflow
+
+### Example Interpretation
+
+A trace with:
+
+- Helpfulness: 1.00
+- Hallucination: 0.00
+- Relevance: 1.00
+
+can be interpreted as:
+
+- the planner produced a useful response,
+- the output did not contain unsupported information,
+- and the retrieved/search results were relevant to the task.
