@@ -8,16 +8,18 @@ from typing import Tuple
 
 
 class Tracer:
-    def __init__(self, public_key: str, secret_key: str, host: str, timeout: float = 30.0):
+
+    def __init__(self, public_key: str, secret_key: str, host: str):
+
+
         self.client = None
-        self.timeout = timeout
         if public_key and secret_key:
             self.client = Langfuse(
                 public_key=public_key,
                 secret_key=secret_key,
                 host=host,
-                timeout=timeout,
             )
+
 
     @contextmanager
     def observation(
@@ -48,8 +50,27 @@ class Tracer:
         if self.client:
             self.client.flush()
 
+    @contextmanager
+    def trace(
+        self,
+        *,
+        name: str,
+        session_id: Optional[str] = None,
+        input: Optional[Dict[str, Any]] = None,
+        **kwargs,
+    ):
+        if not self.client:
+            yield None
+            return
 
-    def get_prompt_from_langfuse(self, prompt_name: str, query: str, context: str)-> Tuple[str, str]:
+        tr_kwargs = {"name": name, "input": input, **kwargs}
+        if session_id:
+            tr_kwargs["session_id"] = session_id
+
+        with self.client.trace(**tr_kwargs) as tr:
+            yield tr
+
+    def get_prompt_from_langfuse(self, prompt_name: str, query: str, context: str) -> Tuple[str, str]:
     
         prompt = self.client.get_prompt(
             prompt_name,

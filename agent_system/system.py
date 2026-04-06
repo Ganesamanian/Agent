@@ -15,7 +15,9 @@ class ThreeAgentSystem:
     def __init__(self, config: AppConfig):
         self.config = config
         self.provider = ModelProvider(config)
-        self.tracer = Tracer(config.langfuse_public_key, config.langfuse_secret_key, config.langfuse_host, config.langfuse_timeout)
+
+        self.tracer = Tracer(config.langfuse_public_key, config.langfuse_secret_key, config.langfuse_host)
+
         self.rag_store = RagStore(config, self.provider)
         self.planner = PlannerAgent(config, self.provider, self.tracer)
         self.rag_agent = RagRetrieverAgent(config, self.provider, self.rag_store, self.tracer)
@@ -42,27 +44,30 @@ class ThreeAgentSystem:
             "embedding_provider": embedding_provider,
         })
 
-        plan = self.planner.plan(request)
-        tasks = [Task(**item) for item in plan["tasks"]]
 
-        emit({
-            "type": "plan_created",
-            "plan": {"tasks": [task.to_dict() for task in tasks]},
-        })
 
         with self.tracer.observation(
-            name=trace_name,
-            as_type="generation",
-            input={
-                "goal": request.goal,
-                "case_context": request.case_context,
-                "llm_provider": llm_provider,
-                "embedding_provider": embedding_provider,
-            },
-            metadata={"llm_provider": llm_provider, "llm_model": model_name},
-        ) as workflow:
+                name=trace_name,
+                input={
+                    "goal": request.goal,
+                    "case_context": request.case_context,
+                    "llm_provider": llm_provider,
+                    "embedding_provider": embedding_provider,
+                },
+                metadata={"llm_provider": llm_provider, "llm_model": model_name},
+            ) as workflow:
 
+            self.tracer.update_current_trace(
+                name=trace_name,
+                session_id=session_id,
+            )
+            plan = self.planner.plan(request)
+            tasks = [Task(**item) for item in plan["tasks"]]
 
+            emit({
+                "type": "plan_created",
+                "plan": {"tasks": [task.to_dict() for task in tasks]},
+            })
 
             rag_output = AgentOutput(summary="", evidence=[])
             web_output = AgentOutput(summary="", evidence=[])
@@ -71,6 +76,7 @@ class ThreeAgentSystem:
             final_answer = ""
 
             for task in tasks:
+
                 task.status = "IN_PROGRESS"
                 emit({"type": "task_started", "task": task.to_dict(), "tasks": [t.to_dict() for t in tasks]})
 

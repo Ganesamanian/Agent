@@ -1,0 +1,22 @@
+Issue:
+A refund complaint involving a potential no-show dispute, unclear property policies, or incomplete payment evidence requires assessment and appropriate classification.
+
+Internal policy:
+- Such refund complaints should be classified as medium risk per the escalation matrix.
+- Determine who collected the payment (Booking.com or the property). If the property charged directly, obtain the payment receipt, property message trail, and cancellation timeline before proceeding.
+- If cancellation occurred within the free-cancellation window without a no-show marking, treat the charge as potentially refundable and collect the cancellation timestamp, property policy, and payment ownership details before responding.
+
+Public policy:
+Please provide the specific query and context so that a relevant public policy summary can be supplied.
+
+Recommended action:
+- Verify if the complaint involves a no-show dispute, unclear property policy, or incomplete payment evidence to confirm medium risk classification.
+- Identify the payment collector; if the property charged directly, request the payment receipt, property message trail, and cancellation timeline.
+- Check if cancellation was within the free-cancellation window without a no-show marking; if so, gather cancellation timestamp, property policy, and payment ownership details.
+- Proceed with escalation according to the medium risk escalation matrix once all necessary information is collected.
+
+Next steps:
+1. Confirm the nature of the refund complaint to classify risk level.
+2. Determine payment collector and request relevant documentation if the property charged directly.
+3. Verify cancellation timing and no-show status to assess refund eligibility.
+4. Compile all gathered information and escalate the case per medium risk procedures.

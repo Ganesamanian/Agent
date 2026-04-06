@@ -1,9 +1,9 @@
 [
-  "run started | llm=openai | embedding=openai | session=c392f497-edbc-4f1a-83a8-2090597c7cb4",
+  "run started | llm=openai | embedding=gemini | session=83e82f24-541c-4afc-8aa4-50018747989d",
   "agent-1: sending task to Agent-2 (RAG retriever)",
   "agent-2: retrieved 3 internal chunks",
   "agent-1: sending task to Agent-3 (serpapi)",
-  "agent-3: collected 3 public results using serpapi",
+  "agent-3: collected 2 public results using serpapi",
   "agent-1: combining public and internal evidence",
   "agent-1: action plan drafted",
   "agent-1: planning operational next steps",
